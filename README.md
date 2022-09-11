@@ -1,16 +1,9 @@
-# location_search_project
+# Search Location App
 
-A new Flutter project.
+## Özet:
+### Flutter ve Google Map API kullanılarak search kısmında arama yapılan yerin ülke şehir bölge ve posta kodu bilgilerini çekip haritada yerini işareteyen uygulama.
 
-## Getting Started
+## Uygulama içi ekran görüntüleri:
+<p>
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+</p>

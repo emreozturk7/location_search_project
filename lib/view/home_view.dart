@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:location_search_project/constants.dart';
-import 'package:location_search_project/search_view.dart';
+import 'package:location_search_project/core/constants.dart';
+import 'package:location_search_project/view/search_view.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({Key? key}) : super(key: key);

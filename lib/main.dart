@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_config/flutter_config.dart';
-import 'package:location_search_project/home_view.dart';
+import 'package:location_search_project/view/home_view.dart';
 
 void main() async {
   SystemChrome.setSystemUIOverlayStyle(

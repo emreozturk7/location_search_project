@@ -4,12 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location_search_project/constants.dart';
+import 'package:location_search_project/core/constants.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:google_api_headers/google_api_headers.dart';
 import 'dart:ui' as ui;
-import 'dart:typed_data';
 
 class SearchView extends StatefulWidget {
   const SearchView({Key? key}) : super(key: key);
@@ -217,28 +216,19 @@ class _SearchViewState extends State<SearchView> {
       onTap: () => _handlePressButton(),
       cursorColor: secondaryTextColor,
       decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderSide: BorderSide(
-            color: transparentColor,
-          ),
-          borderRadius: BorderRadius.circular(4),
-        ),
-        disabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            color: transparentColor,
-          ),
-          borderRadius: BorderRadius.circular(4),
-        ),
+        hintText: 'Search',
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: transparentColor,
           ),
           borderRadius: BorderRadius.circular(4),
         ),
-        prefixIconColor: quaternaryTextColor,
         filled: true,
         fillColor: backgrounColorTwo,
-        prefixIcon: const Icon(Icons.search),
+        prefixIcon: Icon(
+          Icons.search,
+          color: quaternaryTextColor,
+        ),
         labelStyle: TextStyle(
           color: secondaryTextColor,
           fontSize: 14,
@@ -282,15 +272,6 @@ class _SearchViewState extends State<SearchView> {
       language: "tr",
       types: [""],
       strictbounds: false,
-      decoration: InputDecoration(
-        hintText: 'Search',
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20),
-          borderSide: const BorderSide(
-            color: Colors.white,
-          ),
-        ),
-      ),
       components: [Component(Component.country, "tr")],
     );
 
