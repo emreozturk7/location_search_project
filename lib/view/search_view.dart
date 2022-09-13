@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location_search_project/core/constants.dart';
+import 'package:location_search_project/core/color_palette.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:google_api_headers/google_api_headers.dart';
 import 'dart:ui' as ui;
+
+import 'package:location_search_project/core/context_extensions.dart';
 
 class SearchView extends StatefulWidget {
   const SearchView({Key? key}) : super(key: key);
@@ -29,8 +31,10 @@ class _SearchViewState extends State<SearchView> {
 
   String? _mapStyle;
 
-  static const CameraPosition initialCameraPosition =
-      CameraPosition(target: LatLng(37.42796, -122.08574), zoom: 14.0);
+  static const CameraPosition initialCameraPosition = CameraPosition(
+    target: LatLng(37.42796, -122.08574),
+    zoom: 14.0,
+  );
 
   Set<Marker> markersList = {};
 
@@ -47,17 +51,25 @@ class _SearchViewState extends State<SearchView> {
     });
   }
 
+  String cities = 'Cities';
+  String country = 'Country';
+  String provience = 'Provience';
+  String district = 'District';
+  String postCode = 'Post Code';
+  String explore = 'Explore';
+  String search = 'Search';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: homeScaffoldKey,
-      backgroundColor: const Color(0xFFF1F3F6),
+      backgroundColor: backgroundColor,
       body: Padding(
-        padding: const EdgeInsets.only(
-          left: 36.0,
-          right: 36.0,
-          top: 53.0,
-          bottom: 13.0,
+        padding: EdgeInsets.only(
+          left: context.mediumValue,
+          right: context.mediumValue,
+          top: context.mediumValue,
+          bottom: context.lowValue,
         ),
         child: Column(
           children: [
@@ -67,24 +79,25 @@ class _SearchViewState extends State<SearchView> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Cities',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 24,
-                      color: primaryTextColor,
-                    ),
+                    cities,
+                    style: Theme.of(context).textTheme.headline5?.copyWith(
+                          color: primaryTextColor,
+                          fontWeight: FontWeight.bold,
+                        ),
                   ),
                   Stack(
                     children: [
                       CircleAvatar(
-                        child: Image.asset('assets/images/img.png'),
+                        child: Image.asset('assets/images/profile_icon.png'),
                       ),
                       Container(
-                        margin: const EdgeInsets.only(left: 30),
-                        width: 9,
-                        height: 9,
+                        margin: EdgeInsets.only(
+                          left: context.dynamicHeight(0.035),
+                        ),
+                        width: context.lowValue,
+                        height: context.lowValue,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(4.5),
+                          borderRadius: context.lowBorderRadius,
                           color: themeColor,
                         ),
                       ),
@@ -107,9 +120,9 @@ class _SearchViewState extends State<SearchView> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Expanded(
+                        Expanded(
                           flex: 6,
-                          child: Text('Country'),
+                          child: buildTextFieldTitle(context, country),
                         ),
                         const Spacer(flex: 2),
                         Expanded(
@@ -125,9 +138,9 @@ class _SearchViewState extends State<SearchView> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Expanded(
+                        Expanded(
                           flex: 6,
-                          child: Text('Province'),
+                          child: buildTextFieldTitle(context, provience),
                         ),
                         const Spacer(flex: 2),
                         Expanded(
@@ -150,9 +163,9 @@ class _SearchViewState extends State<SearchView> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Expanded(
+                        Expanded(
                           flex: 6,
-                          child: Text('District'),
+                          child: buildTextFieldTitle(context, district),
                         ),
                         const Spacer(flex: 2),
                         Expanded(
@@ -168,9 +181,9 @@ class _SearchViewState extends State<SearchView> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Expanded(
+                        Expanded(
                           flex: 6,
-                          child: Text('Post Code'),
+                          child: buildTextFieldTitle(context, postCode),
                         ),
                         const Spacer(flex: 2),
                         Expanded(
@@ -186,26 +199,30 @@ class _SearchViewState extends State<SearchView> {
             const Spacer(flex: 2),
             Expanded(
               flex: 40,
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                child: GoogleMap(
-                  myLocationButtonEnabled: false,
-                  initialCameraPosition: initialCameraPosition,
-                  markers: markersList,
-                  mapType: MapType.normal,
-                  onMapCreated: (GoogleMapController controller) {
-                    googleMapController = controller;
-                    controller.setMapStyle(_mapStyle);
-                  },
-                ),
+              child: GoogleMap(
+                myLocationButtonEnabled: false,
+                initialCameraPosition: initialCameraPosition,
+                markers: markersList,
+                mapType: MapType.normal,
+                onMapCreated: (GoogleMapController controller) {
+                  googleMapController = controller;
+                  controller.setMapStyle(_mapStyle);
+                },
               ),
             ),
             const Spacer(),
           ],
         ),
       ),
+    );
+  }
+
+  Text buildTextFieldTitle(BuildContext context, String title) {
+    return Text(
+      title,
+      style: Theme.of(context).textTheme.labelLarge?.copyWith(
+            color: tertiaryTextColor,
+          ),
     );
   }
 
@@ -216,12 +233,12 @@ class _SearchViewState extends State<SearchView> {
       onTap: () => _handlePressButton(),
       cursorColor: secondaryTextColor,
       decoration: InputDecoration(
-        hintText: 'Search',
+        hintText: search,
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: transparentColor,
           ),
-          borderRadius: BorderRadius.circular(4),
+          borderRadius: context.lowBorderRadius,
         ),
         filled: true,
         fillColor: backgrounColorTwo,
@@ -229,14 +246,9 @@ class _SearchViewState extends State<SearchView> {
           Icons.search,
           color: quaternaryTextColor,
         ),
-        labelStyle: TextStyle(
-          color: secondaryTextColor,
-          fontSize: 14,
-        ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: transparentColor,
-            width: 2.0,
           ),
         ),
       ),
@@ -252,7 +264,7 @@ class _SearchViewState extends State<SearchView> {
       ),
       decoration: InputDecoration(
         disabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4),
+          borderRadius: context.lowBorderRadius,
           borderSide: BorderSide(
             color: transparentColor,
           ),
@@ -308,7 +320,7 @@ class _SearchViewState extends State<SearchView> {
     final lng = detail.result.geometry!.location.lng;
 
     final Uint8List customMarker = await getBytesFromAsset(
-      path: 'assets/images/img_3.png',
+      path: 'assets/images/marker_icon.png',
       width: 40,
     );
 

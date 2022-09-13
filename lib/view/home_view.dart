@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:location_search_project/core/constants.dart';
+import 'package:location_search_project/core/color_palette.dart';
+import 'package:location_search_project/core/context_extensions.dart';
 import 'package:location_search_project/view/search_view.dart';
 
 class HomeView extends StatelessWidget {
-  const HomeView({Key? key}) : super(key: key);
+  HomeView({Key? key}) : super(key: key);
 
+  String explore = 'Explore';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,65 +14,59 @@ class HomeView extends StatelessWidget {
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: primaryColor,
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(42),
-            topRight: Radius.circular(42),
+          borderRadius: BorderRadius.only(
+            topLeft: context.highRadius,
+            topRight: context.highRadius,
           ),
         ),
-        height: 100,
+        height: context.dynamicHeight(0.125),
         child: Container(
-          padding: const EdgeInsets.only(top: 12.0, right: 6.0, left: 6.0),
+          padding: EdgeInsets.only(
+            top: context.normalValue,
+            right: context.lowValue,
+            left: context.lowValue,
+          ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Column(
                 children: [
                   Text(
-                    'Explore',
+                    explore,
                     style: TextStyle(
                       color: themeColor,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 6),
+                  SizedBox(height: context.lowValue),
                   CircleAvatar(
-                    radius: 2.5,
+                    radius: context.dynamicHeight(0.004),
                     backgroundColor: themeColor,
                   ),
                 ],
               ),
               Column(
-                children: [
-                  CircleAvatar(
-                    radius: 15,
-                    backgroundColor: transparentColor,
-                    child: Image.asset('assets/images/img_2.png'),
-                  ),
-                ],
+                children: [buildCircleAvatar(context, 'book_icon')],
               ),
               Column(
-                children: [
-                  CircleAvatar(
-                    radius: 15,
-                    backgroundColor: transparentColor,
-                    child: Image.asset('assets/images/img_5.png'),
-                  ),
-                ],
+                children: [buildCircleAvatar(context, 'plane_icon')],
               ),
               Column(
-                children: [
-                  CircleAvatar(
-                    radius: 15,
-                    backgroundColor: transparentColor,
-                    child: Image.asset('assets/images/img_1.png'),
-                  ),
-                ],
+                children: [buildCircleAvatar(context, 'bag_icon')],
               ),
             ],
           ),
         ),
       ),
       body: const SearchView(),
+    );
+  }
+
+  CircleAvatar buildCircleAvatar(BuildContext context, String iconName) {
+    return CircleAvatar(
+      radius: context.dynamicHeight(0.0175),
+      backgroundColor: transparentColor,
+      child: Image.asset('assets/images/$iconName.png'),
     );
   }
 }
