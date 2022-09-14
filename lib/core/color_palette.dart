@@ -10,6 +10,7 @@ Color primaryTextColor = const Color(0xFF1D2028);
 Color secondaryTextColor = const Color(0xFF8D9093);
 Color tertiaryTextColor = const Color(0xFF171717);
 Color quaternaryTextColor = const Color(0xFF9FA1A4);
+Color fifthTextColor = const Color(0xFF010101);
 
 Color themeColor = const Color(0xFFEF550A);
 

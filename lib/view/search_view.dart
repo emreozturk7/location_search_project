@@ -2,12 +2,12 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_config/flutter_config.dart';
-import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location_search_project/core/color_palette.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:google_api_headers/google_api_headers.dart';
+import 'package:location_search_project/view/edited_package.dart';
 import 'dart:ui' as ui;
 
 import 'package:location_search_project/core/context_extensions.dart';
@@ -30,7 +30,6 @@ class _SearchViewState extends State<SearchView> {
   TextEditingController searchCtrl = TextEditingController();
 
   String? _mapStyle;
-
   static const CameraPosition initialCameraPosition = CameraPosition(
     target: LatLng(37.42796, -122.08574),
     zoom: 14.0,
@@ -39,8 +38,6 @@ class _SearchViewState extends State<SearchView> {
   Set<Marker> markersList = {};
 
   late GoogleMapController googleMapController;
-
-  final Mode _mode = Mode.overlay;
 
   @override
   void initState() {
@@ -278,13 +275,7 @@ class _SearchViewState extends State<SearchView> {
   Future<void> _handlePressButton() async {
     Prediction? p = await PlacesAutocomplete.show(
       context: context,
-      apiKey: kGoogleApiKey,
       onError: onError,
-      mode: _mode,
-      language: "tr",
-      types: [""],
-      strictbounds: false,
-      components: [Component(Component.country, "tr")],
     );
 
     displayPrediction(p!, homeScaffoldKey.currentState);
