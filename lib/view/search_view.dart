@@ -301,11 +301,35 @@ class _SearchViewState extends State<SearchView> {
 
     PlacesDetailsResponse detail = await places.getDetailsByPlaceId(p.placeId!);
 
-    searchCtrl.text = detail.result.addressComponents[0].longName;
-    countryCtrl.text = detail.result.addressComponents[4].longName;
-    provienceCtrl.text = detail.result.addressComponents[3].longName;
-    districtCtrl.text = detail.result.addressComponents[2].longName;
-    postCodeCtrl.text = detail.result.addressComponents[5].longName;
+    countryCtrl.text = "No data";
+    districtCtrl.text = "No data";
+    provienceCtrl.text = "No data";
+    postCodeCtrl.text = "No data";
+
+    for (var j = 0; j < detail.result.addressComponents.length; j++) {
+      for (var k = 0;
+          k < detail.result.addressComponents[j].types.length;
+          k++) {
+        String data = detail.result.addressComponents[j].types[k];
+
+        switch (data) {
+          case "country":
+            countryCtrl.text = detail.result.addressComponents[j].longName;
+            break;
+          case "administrative_area_level_2":
+            districtCtrl.text = detail.result.addressComponents[j].longName;
+            break;
+          case "administrative_area_level_1":
+            provienceCtrl.text = detail.result.addressComponents[j].longName;
+            break;
+          case "postal_code":
+            postCodeCtrl.text = detail.result.addressComponents[j].longName;
+            break;
+          default:
+            break;
+        }
+      }
+    }
 
     final lat = detail.result.geometry!.location.lat;
     final lng = detail.result.geometry!.location.lng;
