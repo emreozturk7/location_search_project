@@ -10,6 +10,7 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: backgroundColor,
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
@@ -45,15 +46,9 @@ class HomeView extends StatelessWidget {
                   ),
                 ],
               ),
-              Column(
-                children: [buildCircleAvatar(context, 'book_icon')],
-              ),
-              Column(
-                children: [buildCircleAvatar(context, 'plane_icon')],
-              ),
-              Column(
-                children: [buildCircleAvatar(context, 'bag_icon')],
-              ),
+              Column(children: [buildCircleAvatar(context, 'book_icon')]),
+              Column(children: [buildCircleAvatar(context, 'plane_icon')]),
+              Column(children: [buildCircleAvatar(context, 'bag_icon')]),
             ],
           ),
         ),

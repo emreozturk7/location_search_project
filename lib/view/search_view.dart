@@ -27,7 +27,6 @@ class _SearchViewState extends State<SearchView> {
   TextEditingController provienceCtrl = TextEditingController();
   TextEditingController districtCtrl = TextEditingController();
   TextEditingController postCodeCtrl = TextEditingController();
-  TextEditingController searchCtrl = TextEditingController();
 
   String? _mapStyle;
   static const CameraPosition initialCameraPosition = CameraPosition(
@@ -59,6 +58,7 @@ class _SearchViewState extends State<SearchView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       key: homeScaffoldKey,
       backgroundColor: backgroundColor,
       body: Padding(
@@ -89,7 +89,7 @@ class _SearchViewState extends State<SearchView> {
                       ),
                       Container(
                         margin: EdgeInsets.only(
-                          left: context.dynamicHeight(0.035),
+                          left: context.dynamicHeight(0.045),
                         ),
                         width: context.lowValue,
                         height: context.lowValue,
@@ -104,7 +104,7 @@ class _SearchViewState extends State<SearchView> {
               ),
             ),
             Expanded(
-              flex: 6,
+              flex: 8,
               child: buildSearchTextField(context),
             ),
             const Spacer(flex: 2),
@@ -118,10 +118,10 @@ class _SearchViewState extends State<SearchView> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Expanded(
-                          flex: 6,
+                          flex: 7,
                           child: buildTextFieldTitle(context, country),
                         ),
-                        const Spacer(flex: 2),
+                        const Spacer(),
                         Expanded(
                           flex: 18,
                           child: buildTextField(countryCtrl),
@@ -136,10 +136,10 @@ class _SearchViewState extends State<SearchView> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Expanded(
-                          flex: 6,
+                          flex: 7,
                           child: buildTextFieldTitle(context, provience),
                         ),
-                        const Spacer(flex: 2),
+                        const Spacer(),
                         Expanded(
                           flex: 18,
                           child: buildTextField(provienceCtrl),
@@ -161,10 +161,10 @@ class _SearchViewState extends State<SearchView> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Expanded(
-                          flex: 6,
+                          flex: 7,
                           child: buildTextFieldTitle(context, district),
                         ),
-                        const Spacer(flex: 2),
+                        const Spacer(),
                         Expanded(
                           flex: 18,
                           child: buildTextField(districtCtrl),
@@ -179,10 +179,10 @@ class _SearchViewState extends State<SearchView> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Expanded(
-                          flex: 6,
+                          flex: 7,
                           child: buildTextFieldTitle(context, postCode),
                         ),
-                        const Spacer(flex: 2),
+                        const Spacer(),
                         Expanded(
                           flex: 18,
                           child: buildTextField(postCodeCtrl),
@@ -195,7 +195,7 @@ class _SearchViewState extends State<SearchView> {
             ),
             const Spacer(flex: 2),
             Expanded(
-              flex: 40,
+              flex: 32,
               child: GoogleMap(
                 myLocationButtonEnabled: false,
                 initialCameraPosition: initialCameraPosition,
@@ -225,8 +225,6 @@ class _SearchViewState extends State<SearchView> {
 
   TextField buildSearchTextField(BuildContext context) {
     return TextField(
-      enabled: searchCtrl.text.isNotEmpty ? false : true,
-      controller: searchCtrl,
       onTap: () => _handlePressButton(),
       cursorColor: secondaryTextColor,
       decoration: InputDecoration(
@@ -351,8 +349,9 @@ class _SearchViewState extends State<SearchView> {
 
     setState(() {});
 
-    googleMapController
-        .animateCamera(CameraUpdate.newLatLngZoom(LatLng(lat, lng), 14.0));
+    googleMapController.animateCamera(
+      CameraUpdate.newLatLngZoom(LatLng(lat, lng), 14.0),
+    );
   }
 
   Future<Uint8List> getBytesFromAsset(

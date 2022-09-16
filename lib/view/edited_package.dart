@@ -3,10 +3,12 @@ library flutter_google_places.src;
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_config/flutter_config.dart';
 import 'package:google_api_headers/google_api_headers.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:http/http.dart';
 import 'package:location_search_project/core/color_palette.dart';
+import 'package:location_search_project/core/context_extensions.dart';
 import 'package:rxdart/rxdart.dart';
 
 class PlacesAutocompleteWidget extends StatefulWidget {
@@ -32,31 +34,24 @@ class PlacesAutocompleteWidget extends StatefulWidget {
 class _PlacesAutocompleteOverlayState extends PlacesAutocompleteState {
   @override
   Widget build(BuildContext context) {
-    final header = Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-          child: Material(
-            color: primaryColor,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const Spacer(flex: 2),
-                Expanded(
-                  flex: 2,
-                  child: Icon(Icons.search, color: quaternaryTextColor),
-                ),
-                const Spacer(),
-                Expanded(
-                  flex: 45,
-                  child: _textField(context),
-                ),
-              ],
-            ),
+    final header = Material(
+      color: primaryColor,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const Spacer(flex: 2),
+          Expanded(
+            flex: 2,
+            child: Icon(Icons.search, color: quaternaryTextColor),
           ),
-        ),
-      ],
+          const Spacer(),
+          Expanded(
+            flex: 45,
+            child: _textField(context),
+          ),
+        ],
+      ),
     );
 
     Widget body;
@@ -92,27 +87,35 @@ class _PlacesAutocompleteOverlayState extends PlacesAutocompleteState {
       );
     }
 
-    final container = Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(4.0),
-      ),
-      margin: const EdgeInsets.symmetric(horizontal: 36.0, vertical: 30.0),
-      child: Stack(
-        children: <Widget>[
-          header,
-          Padding(
-            padding: const EdgeInsets.only(top: 68.0),
-            child: body,
-          ),
-        ],
+    final container = Scaffold(
+      resizeToAvoidBottomInset: false,
+      backgroundColor: transparentColor,
+      body: Padding(
+        padding: EdgeInsets.only(
+          left: context.mediumValue,
+          right: context.mediumValue,
+          top: context.mediumValue,
+          bottom: context.lowValue,
+        ),
+        child: Column(
+          children: [
+            const Spacer(flex: 7),
+            Expanded(
+              flex: 8,
+              child: header,
+            ),
+            Expanded(
+              flex: 24,
+              child: body,
+            ),
+            const Spacer(flex: 36),
+          ],
+        ),
       ),
     );
 
     if (Theme.of(context).platform == TargetPlatform.iOS) {
-      return Padding(
-        padding: const EdgeInsets.only(top: 56.0),
-        child: container,
-      );
+      return container;
     }
     return container;
   }
@@ -267,8 +270,10 @@ abstract class PlacesAutocompleteState extends State<PlacesAutocompleteWidget> {
   }
 
   Future<void> _initPlaces() async {
+    final kGoogleApiKey = FlutterConfig.get('API_KEY').toString();
+
     _places = GoogleMapsPlaces(
-      apiKey: 'AIzaSyC3-MWPbG_anZgHVpPu9yoXGk2RZH1rSmo',
+      apiKey: kGoogleApiKey,
       baseUrl: widget.proxyBaseUrl,
       httpClient: widget.httpClient,
       apiHeaders: await const GoogleApiHeaders().getHeaders(),
